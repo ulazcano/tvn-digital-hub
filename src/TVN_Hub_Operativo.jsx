@@ -106,10 +106,32 @@ export default function TVNHub() {
   const [sel, setSel] = useState("n1");
   const [filter, setFilter] = useState("all");
   const [frameIdx, setFrameIdx] = useState({});
+  const [editing, setEditing] = useState(null);
+  const [edits, setEdits] = useState({});
   const note = NOTES.find(n => n.id === sel);
   const filtered = filter === "all" ? NOTES : NOTES.filter(n => n.status === filter);
   const counts = { all: NOTES.length, pending: NOTES.filter(n=>n.status==="pending").length, review: NOTES.filter(n=>n.status==="review").length, approved: NOTES.filter(n=>n.status==="approved").length };
   const selFrame = frameIdx[sel] ?? 0;
+  const isEditing = editing === sel;
+  const e = edits[sel] || {};
+  const val = (field) => e[field] !== undefined ? e[field] : note?.[field];
+  const valRrss = (k) => e[`rrss_${k}`] !== undefined ? e[`rrss_${k}`] : note?.rrss?.[k];
+  const setField = (field, v) => setEdits({ ...edits, [sel]: { ...e, [field]: v } });
+  const startEdit = () => {
+    setEditing(sel);
+  };
+  const saveEdit = () => {
+    setEditing(null);
+  };
+  const cancelEdit = () => {
+    const next = { ...edits };
+    delete next[sel];
+    setEdits(next);
+    setEditing(null);
+  };
+
+  const inputStyle = { width:"100%", fontFamily:"inherit", border:`1.5px solid ${B}`, borderRadius:6, padding:"4px 6px", outline:"none", background:"#f8fafc", resize:"vertical" };
+  const taStyle = { ...inputStyle, minHeight:50 };
 
   const frameUrl = (vid, idx) => {
     if (idx === 0) return `${YT(vid)}/maxresdefault.jpg`;
@@ -247,14 +269,33 @@ export default function TVNHub() {
             </div>
 
             <div style={{ fontSize:9, textTransform:"uppercase", letterSpacing:"0.08em", color:M, fontWeight:600, margin:"12px 0 5px" }}>Nota generada por IA</div>
-            <div style={{ fontSize:14, fontWeight:700, color:D, lineHeight:1.35 }}>{note.headline}</div>
-            <div style={{ fontSize:11.5, color:"#475569", lineHeight:1.55, marginTop:6 }}>{note.lead}</div>
-            <div style={{ fontSize:11, color:M, lineHeight:1.5, marginTop:5 }}>{note.body}</div>
+            {isEditing ? (
+              <>
+                <textarea value={val("headline")} onChange={ev => setField("headline", ev.target.value)} style={{ ...inputStyle, fontSize:14, fontWeight:700, color:D, minHeight:40 }}/>
+                <textarea value={val("lead")} onChange={ev => setField("lead", ev.target.value)} style={{ ...taStyle, fontSize:11.5, color:"#475569", marginTop:6 }}/>
+                <textarea value={val("body")} onChange={ev => setField("body", ev.target.value)} style={{ ...taStyle, fontSize:11, color:M, marginTop:5, minHeight:70 }}/>
+              </>
+            ) : (
+              <>
+                <div style={{ fontSize:14, fontWeight:700, color:D, lineHeight:1.35 }}>{val("headline")}</div>
+                <div style={{ fontSize:11.5, color:"#475569", lineHeight:1.55, marginTop:6 }}>{val("lead")}</div>
+                <div style={{ fontSize:11, color:M, lineHeight:1.5, marginTop:5 }}>{val("body")}</div>
+              </>
+            )}
 
             <div style={{ fontSize:9, textTransform:"uppercase", letterSpacing:"0.08em", color:M, fontWeight:600, margin:"12px 0 5px" }}>SEO automático</div>
             <div style={{ background:"#f8fafc", borderRadius:8, padding:10, border:"1px solid #e2e8f0" }}>
-              <div style={{ fontSize:12, color:B, fontWeight:600 }}>{note.seoTitle}</div>
-              <div style={{ fontSize:10, color:M, marginTop:3, lineHeight:1.4 }}>{note.seoDesc}</div>
+              {isEditing ? (
+                <>
+                  <input value={val("seoTitle")} onChange={ev => setField("seoTitle", ev.target.value)} style={{ ...inputStyle, fontSize:12, color:B, fontWeight:600 }}/>
+                  <textarea value={val("seoDesc")} onChange={ev => setField("seoDesc", ev.target.value)} style={{ ...taStyle, fontSize:10, color:M, marginTop:3, minHeight:36 }}/>
+                </>
+              ) : (
+                <>
+                  <div style={{ fontSize:12, color:B, fontWeight:600 }}>{val("seoTitle")}</div>
+                  <div style={{ fontSize:10, color:M, marginTop:3, lineHeight:1.4 }}>{val("seoDesc")}</div>
+                </>
+              )}
               <div style={{ display:"flex", gap:4, flexWrap:"wrap", marginTop:5 }}>
                 {note.tags.map(t => <span key={t} style={{ fontSize:9, padding:"2px 7px", background:"#eff6ff", color:B, borderRadius:6, fontWeight:500 }}>{t}</span>)}
               </div>
@@ -264,14 +305,27 @@ export default function TVNHub() {
             {[["ig","IG","linear-gradient(135deg,#833AB4,#E1306C)"],["x","X","#000"],["fb","FB","#1877F2"]].map(([k,label,bg]) => (
               <div key={k} style={{ display:"flex", alignItems:"flex-start", gap:7, padding:"6px 0", borderBottom:k!=="fb"?"1px solid #f1f5f9":"none" }}>
                 <div style={{ width:20, height:20, borderRadius:5, background:bg, display:"flex", alignItems:"center", justifyContent:"center", fontSize:9, color:"#fff", fontWeight:700, flexShrink:0 }}>{label}</div>
-                <div style={{ fontSize:10, color:"#475569", lineHeight:1.45, flex:1 }}>{note.rrss[k]}</div>
+                {isEditing ? (
+                  <textarea value={valRrss(k)} onChange={ev => setField(`rrss_${k}`, ev.target.value)} style={{ ...taStyle, fontSize:10, flex:1, minHeight:36 }}/>
+                ) : (
+                  <div style={{ fontSize:10, color:"#475569", lineHeight:1.45, flex:1 }}>{valRrss(k)}</div>
+                )}
               </div>
             ))}
 
             <div style={{ display:"flex", gap:6, marginTop:14 }}>
-              <button style={{ flex:2, padding:"9px 14px", borderRadius:8, fontSize:12, fontWeight:600, border:"none", cursor:"pointer", background:B, color:"#fff", fontFamily:"inherit" }}>✓ Aprobar y publicar</button>
-              <button style={{ flex:1, padding:"9px 14px", borderRadius:8, fontSize:12, fontWeight:600, border:"none", cursor:"pointer", background:"#f1f5f9", color:D, fontFamily:"inherit" }}>Editar</button>
-              <button style={{ padding:"9px 12px", borderRadius:8, fontSize:12, fontWeight:600, border:"none", cursor:"pointer", background:"#fef2f2", color:"#DC2626", fontFamily:"inherit" }}>✕</button>
+              {isEditing ? (
+                <>
+                  <button onClick={saveEdit} style={{ flex:2, padding:"9px 14px", borderRadius:8, fontSize:12, fontWeight:600, border:"none", cursor:"pointer", background:"#22c55e", color:"#fff", fontFamily:"inherit" }}>✓ Guardar cambios</button>
+                  <button onClick={cancelEdit} style={{ flex:1, padding:"9px 14px", borderRadius:8, fontSize:12, fontWeight:600, border:"none", cursor:"pointer", background:"#fef2f2", color:"#DC2626", fontFamily:"inherit" }}>Cancelar</button>
+                </>
+              ) : (
+                <>
+                  <button style={{ flex:2, padding:"9px 14px", borderRadius:8, fontSize:12, fontWeight:600, border:"none", cursor:"pointer", background:B, color:"#fff", fontFamily:"inherit" }}>✓ Aprobar y publicar</button>
+                  <button onClick={startEdit} style={{ flex:1, padding:"9px 14px", borderRadius:8, fontSize:12, fontWeight:600, border:"none", cursor:"pointer", background:"#f1f5f9", color:D, fontFamily:"inherit" }}>Editar</button>
+                  <button style={{ padding:"9px 12px", borderRadius:8, fontSize:12, fontWeight:600, border:"none", cursor:"pointer", background:"#fef2f2", color:"#DC2626", fontFamily:"inherit" }}>✕</button>
+                </>
+              )}
             </div>
 
             <div style={{ textAlign:"center", marginTop:12, paddingTop:10, borderTop:"1px solid #e2e8f0" }}>
