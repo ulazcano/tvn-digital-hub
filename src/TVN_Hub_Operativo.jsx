@@ -134,8 +134,8 @@ export default function TVNHub() {
   const taStyle = { ...inputStyle, minHeight:50 };
 
   const frameUrl = (vid, idx) => {
-    if (idx === 0) return `${YT(vid)}/maxresdefault.jpg`;
-    return `${YT(vid)}/${idx}.jpg`;
+    const variants = ["maxresdefault.jpg","sddefault.jpg","hqdefault.jpg","mqdefault.jpg"];
+    return `${YT(vid)}/${variants[idx] || variants[0]}`;
   };
 
   return (
@@ -143,9 +143,10 @@ export default function TVNHub() {
       {/* TOPBAR */}
       <div style={{ background:D, padding:"10px 20px", display:"flex", alignItems:"center", justifyContent:"space-between", borderBottom:`2.5px solid ${G}` }}>
         <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-          <div style={{ fontSize:17, fontWeight:700, color:"#fff", letterSpacing:-0.5 }}>TVN <span style={{ color:G }}>Digital Hub</span></div>
+          <img src="/Logotipo_de_Televisiòn_Nacional_de_Chile.svg.png" alt="TVN" style={{ height:28 }}/>
+          <span style={{ fontSize:17, fontWeight:700, color:G, letterSpacing:-0.5 }}>Digital Hub</span>
           <div style={{ width:1, height:20, background:"rgba(255,255,255,0.15)" }}/>
-          <img src={TIGA_LOGO} alt="Tigabytes" style={{ height:22, filter:"brightness(2)", opacity:0.7 }}/>
+          <img src="/logo_tiga2.png" alt="Tigabytes" style={{ height:20, background:"#fff", borderRadius:4, padding:"2px 8px" }}/>
           <div style={{ width:1, height:20, background:"rgba(255,255,255,0.15)" }}/>
           <div style={{ display:"flex", gap:5 }}>
             {["24 Horas","TVN","Todas"].map((s,i) => (
@@ -163,9 +164,9 @@ export default function TVNHub() {
       </div>
       <style>{`@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}`}</style>
 
-      <div style={{ display:"flex", maxWidth:1240, margin:"0 auto" }}>
+      <div style={{ display:"flex", margin:"0 auto" }}>
         {/* SIDEBAR */}
-        <div style={{ width:200, background:"#fff", borderRight:"1px solid #e2e8f0", padding:14, flexShrink:0, minHeight:"calc(100vh - 50px)" }}>
+        <div style={{ width:"15%", background:"#fff", borderRight:"1px solid #e2e8f0", padding:14, flexShrink:0, minHeight:"calc(100vh - 50px)", boxSizing:"border-box" }}>
           <div style={{ fontSize:10, textTransform:"uppercase", letterSpacing:"0.08em", color:M, fontWeight:600, margin:"12px 0 6px" }}>Estado</div>
           {[["all","Todas",counts.all,"#333"],["pending","Pendientes",counts.pending,"#F59E0B"],["review","En revisión",counts.review,B],["approved","Aprobadas",counts.approved,"#22c55e"]].map(([k,label,c,col]) => (
             <div key={k} onClick={() => setFilter(k)} style={{ display:"flex", alignItems:"center", gap:8, padding:"7px 10px", borderRadius:8, fontSize:12, cursor:"pointer", marginBottom:2, background:filter===k?"#eff6ff":"transparent", color:filter===k?B:"#334155", fontWeight:filter===k?600:400, transition:"all .1s" }}>
@@ -195,7 +196,7 @@ export default function TVNHub() {
         </div>
 
         {/* MAIN LIST */}
-        <div style={{ flex:1, padding:14, overflow:"hidden" }}>
+        <div style={{ width:"30%", padding:14, overflow:"hidden", flexShrink:0, boxSizing:"border-box" }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
             <div style={{ fontSize:16, fontWeight:700, color:D }}>Notas sugeridas — 24 Horas</div>
             <select style={{ border:"1px solid #e2e8f0", borderRadius:8, padding:"5px 10px", fontSize:11, fontFamily:"inherit", color:D }}>
@@ -212,7 +213,7 @@ export default function TVNHub() {
                 boxShadow: sel===n.id ? `0 0 0 2px rgba(38,98,219,0.1)` : "none"
               }}>
                 <div style={{ width:96, height:64, borderRadius:8, flexShrink:0, overflow:"hidden", position:"relative", background:"#1e293b" }}>
-                  <img src={`${YT(n.videoId)}/mqdefault.jpg`} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                  <img src={`${YT(n.videoId)}/hqdefault.jpg`} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
                   <Urg level={n.urgency}/>
                   <div style={{ position:"absolute", bottom:3, right:3, fontSize:9, background:"rgba(0,0,0,.75)", color:"#fff", padding:"1px 5px", borderRadius:4, fontFamily:"monospace" }}>{n.clip.start}</div>
                 </div>
@@ -232,7 +233,7 @@ export default function TVNHub() {
 
         {/* DETAIL PANEL */}
         {note && (
-          <div style={{ width:310, background:"#fff", borderLeft:"1px solid #e2e8f0", padding:14, flexShrink:0, overflowY:"auto", maxHeight:"calc(100vh - 50px)" }}>
+          <div style={{ width:"55%", background:"#fff", borderLeft:"1px solid #e2e8f0", padding:14, flexShrink:0, overflowY:"auto", maxHeight:"calc(100vh - 50px)", boxSizing:"border-box" }}>
             <div style={{ fontSize:9, textTransform:"uppercase", letterSpacing:"0.08em", color:M, fontWeight:600, margin:"4px 0 5px" }}>Pipeline</div>
             <div style={{ display:"flex", gap:3 }}>
               {["Ingesta","Gemini","Agentes","Frames","SEO","Listo"].map((s,i) => (
@@ -248,7 +249,7 @@ export default function TVNHub() {
 
             {/* FRAME HERO */}
             <div style={{ marginTop:10, borderRadius:10, overflow:"hidden", position:"relative", background:"#000" }}>
-              <img src={frameUrl(note.videoId, selFrame)} alt="" style={{ width:"100%", height:170, objectFit:"cover", display:"block" }}/>
+              <img src={frameUrl(note.videoId, selFrame)} alt="" style={{ width:"100%", aspectRatio:"16/9", objectFit:"cover", display:"block" }}/>
               <div style={{ position:"absolute", bottom:8, left:8, background:"rgba(0,0,0,.7)", color:"#fff", padding:"3px 8px", borderRadius:6, fontSize:10, fontFamily:"monospace" }}>{note.clip.start} → {note.clip.end}</div>
               <div style={{ position:"absolute", top:8, right:8, background:B, color:"#fff", padding:"3px 8px", borderRadius:6, fontSize:9, fontWeight:600 }}>{note.clip.dur}</div>
             </div>
