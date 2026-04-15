@@ -55,7 +55,7 @@ export default async function handler(req) {
   const data = await response.json();
 
   if (!response.ok) {
-    return new Response(JSON.stringify({ error: data.error?.message || "Claude API error" }), {
+    return new Response(JSON.stringify({ error: data.error?.message || "API error" }), {
       status: response.status,
       headers: { "Content-Type": "application/json" },
     });

@@ -391,7 +391,7 @@ export default function TVNHub() {
                     marginBottom:6,
                   }}>
                     <div style={{ fontSize:8, color:"#94a3b8", marginBottom:2, fontWeight:600 }}>
-                      {m.role === "user" ? "Editor" : "Claude Haiku"}
+                      {m.role === "user" ? "Editor" : "Gemini"}
                     </div>
                     <div style={{
                       fontSize:11, lineHeight:1.5, padding:"6px 10px", borderRadius:8,
@@ -407,7 +407,7 @@ export default function TVNHub() {
                 {chatLoading && (
                   <div style={{ display:"flex", alignItems:"center", gap:6, padding:"6px 0" }}>
                     <div style={{ width:16, height:16, borderRadius:"50%", border:`2px solid ${B}`, borderTopColor:"transparent", animation:"spin .6s linear infinite" }}/>
-                    <span style={{ fontSize:10, color:M }}>Claude está pensando...</span>
+                    <span style={{ fontSize:10, color:M }}>Gemini está pensando...</span>
                   </div>
                 )}
                 <div ref={chatEndRef}/>
