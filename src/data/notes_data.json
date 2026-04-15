@@ -1,0 +1,112 @@
+[
+  {
+    "id": "n1",
+    "videoId": "qCUZhJXuA3k",
+    "headline": "Ley Uber: estos son los cambios y polémicas que genera la nueva regulación de transporte por aplicaciones",
+    "lead": "La normativa que regula plataformas como Uber, Didi y Cabify fue promulgada tras meses de debate parlamentario. Los conductores deberán cumplir nuevos requisitos de seguridad y las empresas tributarán como establecimientos permanentes.",
+    "body": "El Ministerio de Transportes confirmó que la ley entrará en vigencia en 60 días. Los principales cambios incluyen la obligatoriedad de seguros de accidentes para pasajeros, límites de horas de conducción diaria y la creación de un registro nacional de conductores de aplicaciones. Gremios de taxistas expresaron su conformidad parcial, mientras que las plataformas tecnológicas advirtieron posibles alzas en las tarifas.",
+    "status": "pending",
+    "urgency": "high",
+    "type": "Legislativo",
+    "time": "Hace 4 min",
+    "seoTitle": "Ley Uber Chile: qué cambia y cómo te afecta la nueva regulación",
+    "seoDesc": "La nueva ley de transporte por aplicaciones establece seguros obligatorios, límites horarios y registro de conductores. Conoce los detalles.",
+    "tags": ["ley uber", "transporte", "regulación", "aplicaciones", "chile"],
+    "clip": { "start": "00:02:15", "end": "00:03:42", "dur": "87s", "desc": "Explicación de cambios clave" },
+    "rrss": {
+      "ig": "Nueva Ley Uber: seguros obligatorios, límite de horas y más controles. Todo lo que debes saber sobre la regulación →",
+      "x": "AHORA | Se promulga la Ley Uber en Chile: seguros para pasajeros, registro de conductores y nuevas exigencias para las plataformas de transporte",
+      "fb": "La nueva Ley de Transporte por Aplicaciones fue promulgada tras meses de debate. Uber, Didi y Cabify deberán adaptarse a exigencias de seguridad, tributación y registro de conductores..."
+    },
+    "confidence": 92,
+    "latency": 52
+  },
+  {
+    "id": "n2",
+    "videoId": "aTk3sIEjKX4",
+    "headline": "CAE: recaudación récord del fisco contrasta con miles de deudores ahogados por la cuota inicial del nuevo sistema",
+    "lead": "Mientras el Estado reporta cifras históricas de recaudación por concepto del Crédito con Aval del Estado, miles de profesionales jóvenes enfrentan cuotas que superan el 20% de sus ingresos mensuales.",
+    "body": "Según datos del Ministerio de Educación, la morosidad del CAE alcanza un 38% entre egresados de institutos profesionales. El nuevo mecanismo de cobro, que ajusta las cuotas al ingreso declarado, ha generado controversia por los montos iniciales que deben asumir los recién egresados. Organizaciones estudiantiles exigen la condonación prometida durante la campaña presidencial.",
+    "status": "review",
+    "urgency": "high",
+    "type": "Economía",
+    "time": "Hace 12 min",
+    "seoTitle": "CAE 2026: récord de recaudación fiscal mientras deudores enfrentan cuotas impagables",
+    "seoDesc": "La recaudación del CAE alcanza cifras históricas, pero la morosidad entre egresados de IP supera el 38%. El debate sobre condonación se intensifica.",
+    "tags": ["CAE", "educación", "deuda", "recaudación", "morosidad"],
+    "clip": { "start": "00:05:30", "end": "00:07:10", "dur": "100s", "desc": "Testimonios de deudores" },
+    "rrss": {
+      "ig": "CAE: el Estado recauda cifras récord, pero miles de jóvenes no pueden pagar sus cuotas. Los datos que impactan →",
+      "x": "Recaudación récord del CAE vs. 38% de morosidad en egresados de IP. El debate sobre la deuda educativa se enciende en Chile",
+      "fb": "Mientras el fisco celebra cifras históricas de recaudación por el CAE, miles de profesionales jóvenes luchan con cuotas que superan el 20% de sus ingresos..."
+    },
+    "confidence": 89,
+    "latency": 61
+  },
+  {
+    "id": "n3",
+    "videoId": "GPcxr3uLwnk",
+    "headline": "\"Auditoría total\": informe revela millonarios convenios irregulares en municipios de la Región Metropolitana",
+    "lead": "Un informe de la Contraloría General de la República detectó irregularidades en convenios por más de $15.000 millones entre municipios y fundaciones sin fiscalización adecuada.",
+    "body": "La investigación abarca 12 comunas de la RM y señala que los convenios carecían de controles mínimos de ejecución presupuestaria. Los alcaldes involucrados deberán responder ante el organismo contralor en un plazo de 30 días. La oposición exige que el caso sea derivado al Ministerio Público para determinar eventuales responsabilidades penales.",
+    "status": "pending",
+    "urgency": "high",
+    "type": "Política",
+    "time": "Hace 18 min",
+    "seoTitle": "Contraloría detecta convenios irregulares por $15.000 millones en municipios de la RM",
+    "seoDesc": "Informe revela falta de fiscalización en convenios entre 12 municipios y fundaciones. Alcaldes deberán responder en 30 días.",
+    "tags": ["contraloría", "municipios", "convenios", "corrupción", "auditoría"],
+    "clip": { "start": "00:01:20", "end": "00:02:55", "dur": "95s", "desc": "Cifras del informe Contraloría" },
+    "rrss": {
+      "ig": "Auditoría total: Contraloría revela convenios irregulares por $15 mil millones en municipios de Santiago. Los detalles →",
+      "x": "INFORME | Contraloría detecta convenios por más de $15.000 millones sin fiscalización en 12 comunas de la RM. Alcaldes tienen 30 días para responder",
+      "fb": "Un informe de la Contraloría reveló graves irregularidades en convenios millonarios entre municipios de la Región Metropolitana y fundaciones..."
+    },
+    "confidence": 95,
+    "latency": 44
+  },
+  {
+    "id": "n4",
+    "videoId": "ggeNMiXOAFA",
+    "headline": "IRONMAN 70.3 Puerto Varas 2026: más de 2.500 deportistas compiten en el sur de Chile en la prueba más exigente del año",
+    "lead": "La ciudad de Puerto Varas recibe por cuarta vez consecutiva la competencia de triatlón IRONMAN 70.3, consolidándose como sede deportiva internacional con participantes de 35 países.",
+    "body": "La competencia incluye 1.9 km de natación en el Lago Llanquihue, 90 km de ciclismo con vista al volcán Osorno y 21.1 km de carrera. El chileno Felipe Barraza parte como favorito local tras su podio en el circuito sudamericano. La organización estima un impacto económico de $4.200 millones para la región de Los Lagos.",
+    "status": "approved",
+    "urgency": "low",
+    "type": "Deportes",
+    "time": "Hace 45 min",
+    "seoTitle": "IRONMAN 70.3 Puerto Varas 2026: resultados, recorrido y lo mejor de la competencia",
+    "seoDesc": "Más de 2.500 triatletas de 35 países compiten en Puerto Varas. Felipe Barraza lidera la delegación chilena en el evento que impacta en $4.200 millones la región.",
+    "tags": ["IRONMAN", "Puerto Varas", "triatlón", "deportes", "Chile"],
+    "clip": { "start": "00:15:00", "end": "00:16:30", "dur": "90s", "desc": "Largada natación Lago Llanquihue" },
+    "rrss": {
+      "ig": "En vivo desde Puerto Varas: 2.500 deportistas de 35 países compiten en el IRONMAN 70.3 Chile 2026. Sigue la transmisión →",
+      "x": "EN VIVO | IRONMAN 70.3 Puerto Varas: arrancó la competencia con más de 2.500 triatletas. Felipe Barraza lidera la delegación chilena",
+      "fb": "Puerto Varas vuelve a ser capital del triatlón mundial. Más de 2.500 atletas de 35 países participan en el IRONMAN 70.3 Chile 2026..."
+    },
+    "confidence": 96,
+    "latency": 38
+  },
+  {
+    "id": "n5",
+    "videoId": "5XoTVrKRATA",
+    "headline": "Chile suma medallas en Judo durante los IV Juegos Suramericanos de la Juventud",
+    "lead": "La delegación chilena de judo obtuvo dos medallas de bronce en la jornada inaugural de los Juegos Suramericanos de la Juventud, con destacadas actuaciones en las categorías sub-18.",
+    "body": "Los judocas nacionales Martina Soto (-52kg) y Benjamín Contreras (-66kg) aseguraron bronce tras combates intensos contra representantes de Brasil y Argentina respectivamente. El jefe de delegación proyectó al menos 5 medallas más en las próximas jornadas. Chile acumula 4 medallas en el medallero general del torneo continental juvenil.",
+    "status": "pending",
+    "urgency": "med",
+    "type": "Deportes",
+    "time": "Hace 25 min",
+    "seoTitle": "Juegos Suramericanos Juventud: Chile gana bronces en judo con Soto y Contreras",
+    "seoDesc": "Martina Soto y Benjamín Contreras suman medallas de bronce para Chile en judo. La delegación aspira a 5 medallas más en el torneo continental.",
+    "tags": ["juegos suramericanos", "judo", "medallas", "Chile", "juventud"],
+    "clip": { "start": "00:32:10", "end": "00:33:50", "dur": "100s", "desc": "Combate final Martina Soto" },
+    "rrss": {
+      "ig": "Chile medalla: Martina Soto y Benjamín Contreras ganan bronce en judo en los Suramericanos de la Juventud. Vamos Chile! →",
+      "x": "MEDALLAS | Chile suma bronces en judo en los IV Juegos Suramericanos de la Juventud. Soto (-52kg) y Contreras (-66kg) suben al podio",
+      "fb": "Gran jornada para el judo chileno en los Juegos Suramericanos de la Juventud. Martina Soto y Benjamín Contreras obtuvieron medallas de bronce..."
+    },
+    "confidence": 91,
+    "latency": 55
+  }
+]

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import NOTES_DATA from "./data/notes_data.json";
 
 const TIGA_LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAAAtCAMAAADcD9SdAAAAJFBMVEUAAAAGFTYBAwoHEy0mYtwFDiEDCBUnZukkXs8gULAYPIUSKlxH+2uCAAAACXBIWXMAAAsTAAALEwEAmpwYAAAE8UlEQVR4nO1Y23ItKQhVFLz9//9OcetWt0l2knOqZmqah+xuG5UlsMCE8MgjjzzyyCOP/L8Fwn9AACAQHoUQCV5hAE/50UbwtQaE30isH0qLL9thSun7+70xDVJK+CskWPNJSim55B0JpBgTfXsPnha/ABJj/MERXdNDgFcgtWYdLA2+bdFRGP/n0+hrlZP1+gsBKMSjN9gfpeaK21ScPAJTBl3xDaegF0fCPMR7h9kiU5kWXFPmmEI4eh92sNTK5AqBkVvvvddSdyCEiT2SUIKZEB2T5AAqcUwjKQlhuCN1TEYAbZGgZAPqkWQrAu/Es+8D1I3XqMYmJ956TGk094L5IjeBCEC95A0IRhM5On6jeRyJH9SQtKjKcYstrObnT9dk9laM8h3N75Ouxp2utvBB56ARo+2P5QUHE48B0mi1thFiLZtHUop60AsQki3km2WQbJzUf2IZ2606NoknoyxqOpCiLE6OQ5X5VZdDPYjJIGgeQspNV2LUNiCk3nS0NEo141JJwHJExhyIxA0CiBuSANERy2C2RVAQyHxxErlNwOZfPpJEEB2y9Wb3bYQAVY3vAzGOXiW1S+2DAg5GIclSamk06gpEN7ERB8I26fLiGt5Zw97OVo/bvDePJPcrLkZeds+6eCpHXQyPIY4REQj5l6N09MownHuZfHs60u/ikTtKLnK+NpuBWG6bts9O7tflOHQ9e5oIbaUuYNICbJlLXutD8nA0do1xV+GUKbkMoo/ryG7KocrAGUg6GAkXkPtg2EsO2vhvEW6jsHsdZOvrmi11dEn/2ha2PwOZhmZ7OdM1X1cgbrn9Etu6A5GZeHOFklbCjX0DdDn0i3PtSZDVnGsZgz80PoUNyZtAyKj2EyA8PVFgRWGmFcgtEtu+3t4eUZdGys//KoVeFFMvnC2194Y/AXLx2CG0gD0lYCPrrCl+hVZCdgj/seyzWhzt/bIn9qY5zfRkWG7pJB+ZEvYWZSLAOUcuICnaYWvlmjLBdThwvEjilNgOcMqRbW+NsMUnEMLQWsIk5c2Vu6RkjB5pByC+1AesFUBaRIkXT9dDsstTWoliYa25j3Ouwlcg0doR7kOYuUbvvXG7IoAaV3XJl5NHNiB3BaAbyFQ1PPzujsRgx7uH2YHYE1/wxFlcH1+dxcWzMTexUuPKxyVl9N4q0zHXxAbYpKLsPr6j5lzZBYiVZus1HIhW9qkmJG2nJl+jm8t7gNRXtnFh5skjEKCV0iFg70At5xqjlfdBEJh6S0N4bRq9P9x6LWvxjFiu5svTE/Zey9dE0XfD7r5aYYuy5jYjS6jUtbT6YZQ8QtSjTy2XFoYmefBumCv/OHjEjpFO3a+YfjGS06c7Db2FvUwBb8lE7LP3nOYuZbSrG77VFXzOEbhRybU0iDWXzkgYm3pG2HkE6nVrUZRd1DpufCxR5fqAMJGphNB1DecmCWVwuZjjEin6+Z4+6dr9xC4zt4w6Qq9NpPYQW2sjDMYxS+0QVo7QRYFsufWGyLVzOm8gIs1Q+65KiyW4Xwp9ZZ2+9lX8vl+8gQIQEBJwswxB9lRdQl5OJsHeaH0pWuPeVFZyOBWM78harl+H/P09q+wg9f7zrgWau9//j8zfFNR745LJb8yJv3fInxVjskNT94kIEeHv/rf4p0U5ZmaZN8Sq9r9MgPiOc7j6PPLII4+E38g/VGAnKJFsR9AAAAAASUVORK5CYII=";
 
@@ -130,12 +131,53 @@ export default function TVNHub() {
     setEditing(null);
   };
 
+  const [chatMsgs, setChatMsgs] = useState({});
+  const [chatInput, setChatInput] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
+  const chatEndRef = useRef(null);
+  const msgs = chatMsgs[sel] || [];
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [msgs, chatLoading]);
+
+  const sendChat = async () => {
+    const q = chatInput.trim();
+    if (!q || chatLoading) return;
+    const noteData = NOTES_DATA.find(n => n.id === sel);
+    if (!noteData) return;
+    const newMsgs = [...msgs, { role: "user", text: q }];
+    setChatMsgs({ ...chatMsgs, [sel]: newMsgs });
+    setChatInput("");
+    setChatLoading(true);
+    try {
+      const res = await fetch("/api/agent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ noteData, question: q }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      setChatMsgs(prev => ({
+        ...prev,
+        [sel]: [...(prev[sel] || []), { role: "assistant", text: data.response }],
+      }));
+    } catch (err) {
+      setChatMsgs(prev => ({
+        ...prev,
+        [sel]: [...(prev[sel] || []), { role: "assistant", text: `Error: ${err.message}` }],
+      }));
+    } finally {
+      setChatLoading(false);
+    }
+  };
+
   const inputStyle = { width:"100%", fontFamily:"inherit", border:`1.5px solid ${B}`, borderRadius:6, padding:"4px 6px", outline:"none", background:"#f8fafc", resize:"vertical" };
   const taStyle = { ...inputStyle, minHeight:50 };
 
   const frameUrl = (vid, idx) => {
-    const variants = ["maxresdefault.jpg","sddefault.jpg","hqdefault.jpg","mqdefault.jpg"];
-    return `${YT(vid)}/${variants[idx] || variants[0]}`;
+    if (idx === 0) return `${YT(vid)}/maxresdefault.jpg`;
+    return `${YT(vid)}/${idx}.jpg`;
   };
 
   return (
@@ -327,6 +369,80 @@ export default function TVNHub() {
                   <button style={{ padding:"9px 12px", borderRadius:8, fontSize:12, fontWeight:600, border:"none", cursor:"pointer", background:"#fef2f2", color:"#DC2626", fontFamily:"inherit" }}>✕</button>
                 </>
               )}
+            </div>
+
+            {/* AGENTE IA */}
+            <div style={{ marginTop:14, borderTop:"1px solid #e2e8f0", paddingTop:10 }}>
+              <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8 }}>
+                <div style={{ width:22, height:22, borderRadius:6, background:`linear-gradient(135deg,${B},#7c3aed)`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, color:"#fff" }}>AI</div>
+                <div style={{ fontSize:10, textTransform:"uppercase", letterSpacing:"0.08em", color:M, fontWeight:600 }}>Agente editorial — Gemini</div>
+              </div>
+
+              <div style={{ background:"#f8fafc", borderRadius:10, border:"1px solid #e2e8f0", padding:10, maxHeight:220, overflowY:"auto", marginBottom:8 }}>
+                {msgs.length === 0 && !chatLoading && (
+                  <div style={{ fontSize:10, color:"#94a3b8", textAlign:"center", padding:"12px 0" }}>
+                    Pregunta sobre esta nota al agente IA. Tiene acceso a todos los datos de la nota seleccionada.
+                  </div>
+                )}
+                {msgs.map((m, i) => (
+                  <div key={i} style={{
+                    display:"flex", flexDirection:"column",
+                    alignItems: m.role === "user" ? "flex-end" : "flex-start",
+                    marginBottom:6,
+                  }}>
+                    <div style={{ fontSize:8, color:"#94a3b8", marginBottom:2, fontWeight:600 }}>
+                      {m.role === "user" ? "Editor" : "Claude Haiku"}
+                    </div>
+                    <div style={{
+                      fontSize:11, lineHeight:1.5, padding:"6px 10px", borderRadius:8,
+                      maxWidth:"90%", whiteSpace:"pre-wrap", wordBreak:"break-word",
+                      background: m.role === "user" ? B : "#fff",
+                      color: m.role === "user" ? "#fff" : D,
+                      border: m.role === "user" ? "none" : "1px solid #e2e8f0",
+                    }}>
+                      {m.text}
+                    </div>
+                  </div>
+                ))}
+                {chatLoading && (
+                  <div style={{ display:"flex", alignItems:"center", gap:6, padding:"6px 0" }}>
+                    <div style={{ width:16, height:16, borderRadius:"50%", border:`2px solid ${B}`, borderTopColor:"transparent", animation:"spin .6s linear infinite" }}/>
+                    <span style={{ fontSize:10, color:M }}>Claude está pensando...</span>
+                  </div>
+                )}
+                <div ref={chatEndRef}/>
+              </div>
+              <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
+
+              <div style={{ display:"flex", gap:6 }}>
+                <input
+                  value={chatInput}
+                  onChange={ev => setChatInput(ev.target.value)}
+                  onKeyDown={ev => ev.key === "Enter" && sendChat()}
+                  placeholder="Escribe tu pregunta sobre esta nota..."
+                  style={{
+                    flex:1, padding:"8px 12px", borderRadius:8, border:"1.5px solid #e2e8f0",
+                    fontSize:11, fontFamily:"inherit", outline:"none", background:"#fff",
+                    transition:"border-color .15s",
+                  }}
+                  onFocus={ev => ev.target.style.borderColor = B}
+                  onBlur={ev => ev.target.style.borderColor = "#e2e8f0"}
+                  disabled={chatLoading}
+                />
+                <button
+                  onClick={sendChat}
+                  disabled={chatLoading || !chatInput.trim()}
+                  style={{
+                    padding:"8px 14px", borderRadius:8, fontSize:11, fontWeight:600,
+                    border:"none", cursor: chatLoading || !chatInput.trim() ? "not-allowed" : "pointer",
+                    background: chatLoading || !chatInput.trim() ? "#e2e8f0" : B,
+                    color: chatLoading || !chatInput.trim() ? M : "#fff",
+                    fontFamily:"inherit", transition:"all .15s",
+                  }}
+                >
+                  Enviar
+                </button>
+              </div>
             </div>
 
             <div style={{ textAlign:"center", marginTop:12, paddingTop:10, borderTop:"1px solid #e2e8f0" }}>
