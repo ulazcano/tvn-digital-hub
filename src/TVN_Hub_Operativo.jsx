@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import NOTES_DATA from "./data/notes_data.json";
+import YouTubePlayer from "./components/YouTubePlayer";
+import TrimSelector from "./components/TrimSelector";
+import { timeToSec } from "./utils/time";
 
 const TIGA_LOGO = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAAAtCAMAAADcD9SdAAAAJFBMVEUAAAAGFTYBAwoHEy0mYtwFDiEDCBUnZukkXs8gULAYPIUSKlxH+2uCAAAACXBIWXMAAAsTAAALEwEAmpwYAAAE8UlEQVR4nO1Y23ItKQhVFLz9//9OcetWt0l2knOqZmqah+xuG5UlsMCE8MgjjzzyyCOP/L8Fwn9AACAQHoUQCV5hAE/50UbwtQaE30isH0qLL9thSun7+70xDVJK+CskWPNJSim55B0JpBgTfXsPnha/ABJj/MERXdNDgFcgtWYdLA2+bdFRGP/n0+hrlZP1+gsBKMSjN9gfpeaK21ScPAJTBl3xDaegF0fCPMR7h9kiU5kWXFPmmEI4eh92sNTK5AqBkVvvvddSdyCEiT2SUIKZEB2T5AAqcUwjKQlhuCN1TEYAbZGgZAPqkWQrAu/Es+8D1I3XqMYmJ956TGk094L5IjeBCEC95A0IRhM5On6jeRyJH9SQtKjKcYstrObnT9dk9laM8h3N75Ouxp2utvBB56ARo+2P5QUHE48B0mi1thFiLZtHUop60AsQki3km2WQbJzUf2IZ2606NoknoyxqOpCiLE6OQ5X5VZdDPYjJIGgeQspNV2LUNiCk3nS0NEo141JJwHJExhyIxA0CiBuSANERy2C2RVAQyHxxErlNwOZfPpJEEB2y9Wb3bYQAVY3vAzGOXiW1S+2DAg5GIclSamk06gpEN7ERB8I26fLiGt5Zw97OVo/bvDePJPcrLkZeds+6eCpHXQyPIY4REQj5l6N09MownHuZfHs60u/ikTtKLnK+NpuBWG6bts9O7tflOHQ9e5oIbaUuYNICbJlLXutD8nA0do1xV+GUKbkMoo/ryG7KocrAGUg6GAkXkPtg2EsO2vhvEW6jsHsdZOvrmi11dEn/2ha2PwOZhmZ7OdM1X1cgbrn9Etu6A5GZeHOFklbCjX0DdDn0i3PtSZDVnGsZgz80PoUNyZtAyKj2EyA8PVFgRWGmFcgtEtu+3t4eUZdGys//KoVeFFMvnC2194Y/AXLx2CG0gD0lYCPrrCl+hVZCdgj/seyzWhzt/bIn9qY5zfRkWG7pJB+ZEvYWZSLAOUcuICnaYWvlmjLBdThwvEjilNgOcMqRbW+NsMUnEMLQWsIk5c2Vu6RkjB5pByC+1AesFUBaRIkXT9dDsstTWoliYa25j3Ouwlcg0doR7kOYuUbvvXG7IoAaV3XJl5NHNiB3BaAbyFQ1PPzujsRgx7uH2YHYE1/wxFlcH1+dxcWzMTexUuPKxyVl9N4q0zHXxAbYpKLsPr6j5lzZBYiVZus1HIhW9qkmJG2nJl+jm8t7gNRXtnFh5skjEKCV0iFg70At5xqjlfdBEJh6S0N4bRq9P9x6LWvxjFiu5svTE/Zey9dE0XfD7r5aYYuy5jYjS6jUtbT6YZQ8QtSjTy2XFoYmefBumCv/OHjEjpFO3a+YfjGS06c7Db2FvUwBb8lE7LP3nOYuZbSrG77VFXzOEbhRybU0iDWXzkgYm3pG2HkE6nVrUZRd1DpufCxR5fqAMJGphNB1DecmCWVwuZjjEin6+Z4+6dr9xC4zt4w6Qq9NpPYQW2sjDMYxS+0QVo7QRYFsufWGyLVzOm8gIs1Q+65KiyW4Xwp9ZZ2+9lX8vl+8gQIQEBJwswxB9lRdQl5OJsHeaH0pWuPeVFZyOBWM78harl+H/P09q+wg9f7zrgWau9//j8zfFNR745LJb8yJv3fInxVjskNT94kIEeHv/rf4p0U5ZmaZN8Sq9r9MgPiOc7j6PPLII4+E38g/VGAnKJFsR9AAAAAASUVORK5CYII=";
 
@@ -20,12 +23,12 @@ const NOTES = [
     seoTitle: "Ley Uber Chile: qué cambia y cómo te afecta la nueva regulación",
     seoDesc: "La nueva ley de transporte por aplicaciones establece seguros obligatorios, límites horarios y registro de conductores. Conoce los detalles.",
     tags: ["ley uber", "transporte", "regulación", "aplicaciones", "chile"],
-    clip: { start: "00:02:15", end: "00:03:42", dur: "87s", desc: "Explicación de cambios clave" },
+    clip: { start: "00:00:15", end: "00:01:10", dur: "55s", desc: "Explicación de cambios clave" },
     rrss: {
       ig: "Nueva Ley Uber: seguros obligatorios, límite de horas y más controles. Todo lo que debes saber sobre la regulación →",
       x: "AHORA | Se promulga la Ley Uber en Chile: seguros para pasajeros, registro de conductores y nuevas exigencias para las plataformas de transporte",
       fb: "La nueva Ley de Transporte por Aplicaciones fue promulgada tras meses de debate. Uber, Didi y Cabify deberán adaptarse a exigencias de seguridad, tributación y registro de conductores..."
-    }, confidence: 92, latency: 52
+    }, confidence: 92, latency: 52, videoDuration: 81
   },
   {
     id: "n2", videoId: "aTk3sIEjKX4",
@@ -36,12 +39,12 @@ const NOTES = [
     seoTitle: "CAE 2026: récord de recaudación fiscal mientras deudores enfrentan cuotas impagables",
     seoDesc: "La recaudación del CAE alcanza cifras históricas, pero la morosidad entre egresados de IP supera el 38%. El debate sobre condonación se intensifica.",
     tags: ["CAE", "educación", "deuda", "recaudación", "morosidad"],
-    clip: { start: "00:05:30", end: "00:07:10", dur: "100s", desc: "Testimonios de deudores" },
+    clip: { start: "00:05:30", end: "00:07:00", dur: "90s", desc: "Testimonios de deudores" },
     rrss: {
       ig: "CAE: el Estado recauda cifras récord, pero miles de jóvenes no pueden pagar sus cuotas. Los datos que impactan →",
       x: "Recaudación récord del CAE vs. 38% de morosidad en egresados de IP. El debate sobre la deuda educativa se enciende en Chile",
       fb: "Mientras el fisco celebra cifras históricas de recaudación por el CAE, miles de profesionales jóvenes luchan con cuotas que superan el 20% de sus ingresos..."
-    }, confidence: 89, latency: 61
+    }, confidence: 89, latency: 61, videoDuration: 432
   },
   {
     id: "n3", videoId: "GPcxr3uLwnk",
@@ -57,7 +60,7 @@ const NOTES = [
       ig: "Auditoría total: Contraloría revela convenios irregulares por $15 mil millones en municipios de Santiago. Los detalles →",
       x: "INFORME | Contraloría detecta convenios por más de $15.000 millones sin fiscalización en 12 comunas de la RM. Alcaldes tienen 30 días para responder",
       fb: "Un informe de la Contraloría reveló graves irregularidades en convenios millonarios entre municipios de la Región Metropolitana y fundaciones..."
-    }, confidence: 95, latency: 44
+    }, confidence: 95, latency: 44, videoDuration: 193
   },
   {
     id: "n4", videoId: "ggeNMiXOAFA",
@@ -73,7 +76,7 @@ const NOTES = [
       ig: "En vivo desde Puerto Varas: 2.500 deportistas de 35 países compiten en el IRONMAN 70.3 Chile 2026. Sigue la transmisión →",
       x: "EN VIVO | IRONMAN 70.3 Puerto Varas: arrancó la competencia con más de 2.500 triatletas. Felipe Barraza lidera la delegación chilena",
       fb: "Puerto Varas vuelve a ser capital del triatlón mundial. Más de 2.500 atletas de 35 países participan en el IRONMAN 70.3 Chile 2026..."
-    }, confidence: 96, latency: 38
+    }, confidence: 96, latency: 38, videoDuration: 16750
   },
   {
     id: "n5", videoId: "5XoTVrKRATA",
@@ -89,7 +92,7 @@ const NOTES = [
       ig: "Chile medalla: Martina Soto y Benjamín Contreras ganan bronce en judo en los Suramericanos de la Juventud. Vamos Chile! →",
       x: "MEDALLAS | Chile suma bronces en judo en los IV Juegos Suramericanos de la Juventud. Soto (-52kg) y Contreras (-66kg) suben al podio",
       fb: "Gran jornada para el judo chileno en los Juegos Suramericanos de la Juventud. Martina Soto y Benjamín Contreras obtuvieron medallas de bronce..."
-    }, confidence: 91, latency: 55
+    }, confidence: 91, latency: 55, videoDuration: 11800
   }
 ];
 
@@ -106,13 +109,11 @@ const Urg = ({ level }) => {
 export default function TVNHub() {
   const [sel, setSel] = useState("n1");
   const [filter, setFilter] = useState("all");
-  const [frameIdx, setFrameIdx] = useState({});
   const [editing, setEditing] = useState(null);
   const [edits, setEdits] = useState({});
   const note = NOTES.find(n => n.id === sel);
   const filtered = filter === "all" ? NOTES : NOTES.filter(n => n.status === filter);
   const counts = { all: NOTES.length, pending: NOTES.filter(n=>n.status==="pending").length, review: NOTES.filter(n=>n.status==="review").length, approved: NOTES.filter(n=>n.status==="approved").length };
-  const selFrame = frameIdx[sel] ?? 0;
   const isEditing = editing === sel;
   const e = edits[sel] || {};
   const val = (field) => e[field] !== undefined ? e[field] : note?.[field];
@@ -131,6 +132,44 @@ export default function TVNHub() {
     setEditing(null);
   };
 
+  const [trimStart, setTrimStart] = useState(null);
+  const [trimEnd, setTrimEnd] = useState(null);
+  const [capturedFrame, setCapturedFrame] = useState({});
+  const [capturing, setCapturing] = useState(false);
+
+  const defaultStart = 0;
+  const defaultEnd = note?.videoDuration ?? 0;
+  const clipStart = trimStart ?? defaultStart;
+  const clipEnd = trimEnd ?? defaultEnd;
+
+  // Reset trim when switching notes
+  useEffect(() => {
+    setTrimStart(null);
+    setTrimEnd(null);
+  }, [sel]);
+
+  const playerRef = useRef(null);
+
+  const handleCaptureFrame = async () => {
+    if (!note || capturing) return;
+    const currentTime = playerRef.current?.getCurrentTime?.() ?? clipStart;
+    setCapturing(true);
+    try {
+      const res = await fetch("/api/capture-frame", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ videoId: note.videoId, timestamp: currentTime }),
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      setCapturedFrame(prev => ({ ...prev, [sel]: data.image }));
+    } catch (err) {
+      console.error("Capture failed:", err.message);
+    } finally {
+      setCapturing(false);
+    }
+  };
+
   const [chatMsgs, setChatMsgs] = useState({});
   const [chatInput, setChatInput] = useState("");
   const [chatLoading, setChatLoading] = useState(false);
@@ -138,7 +177,9 @@ export default function TVNHub() {
   const msgs = chatMsgs[sel] || [];
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (msgs.length > 0) {
+      chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [msgs, chatLoading]);
 
   const sendChat = async () => {
@@ -175,10 +216,6 @@ export default function TVNHub() {
   const inputStyle = { width:"100%", fontFamily:"inherit", border:`1.5px solid ${B}`, borderRadius:6, padding:"4px 6px", outline:"none", background:"#f8fafc", resize:"vertical" };
   const taStyle = { ...inputStyle, minHeight:50 };
 
-  const frameUrl = (vid, idx) => {
-    if (idx === 0) return `${YT(vid)}/maxresdefault.jpg`;
-    return `${YT(vid)}/${idx}.jpg`;
-  };
 
   return (
     <div style={{ fontFamily:"'DM Sans',system-ui,sans-serif", background:"#e5e7eb", minHeight:"100vh" }}>
@@ -255,7 +292,7 @@ export default function TVNHub() {
                 boxShadow: sel===n.id ? `0 0 0 2px rgba(38,98,219,0.1)` : "none"
               }}>
                 <div style={{ width:96, height:64, borderRadius:8, flexShrink:0, overflow:"hidden", position:"relative", background:"#1e293b" }}>
-                  <img src={`${YT(n.videoId)}/hqdefault.jpg`} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                  <img src={capturedFrame[n.id] || `${YT(n.videoId)}/hqdefault.jpg`} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
                   <Urg level={n.urgency}/>
                   <div style={{ position:"absolute", bottom:3, right:3, fontSize:9, background:"rgba(0,0,0,.75)", color:"#fff", padding:"1px 5px", borderRadius:4, fontFamily:"monospace" }}>{n.clip.start}</div>
                 </div>
@@ -289,27 +326,49 @@ export default function TVNHub() {
               ))}
             </div>
 
-            {/* FRAME HERO */}
-            <div style={{ marginTop:10, borderRadius:10, overflow:"hidden", position:"relative", background:"#000" }}>
-              <img src={frameUrl(note.videoId, selFrame)} alt="" style={{ width:"100%", aspectRatio:"16/9", objectFit:"cover", display:"block" }}/>
-              <div style={{ position:"absolute", bottom:8, left:8, background:"rgba(0,0,0,.7)", color:"#fff", padding:"3px 8px", borderRadius:6, fontSize:10, fontFamily:"monospace" }}>{note.clip.start} → {note.clip.end}</div>
-              <div style={{ position:"absolute", top:8, right:8, background:B, color:"#fff", padding:"3px 8px", borderRadius:6, fontSize:9, fontWeight:600 }}>{note.clip.dur}</div>
+            {/* VIDEO PLAYER */}
+            <div style={{ marginTop:10 }}>
+              <YouTubePlayer
+                ref={playerRef}
+                videoId={note.videoId}
+                startSeconds={clipStart}
+                endSeconds={clipEnd}
+              />
             </div>
 
-            {/* FRAME CANDIDATES */}
-            <div style={{ fontSize:9, textTransform:"uppercase", letterSpacing:"0.08em", color:M, fontWeight:600, margin:"10px 0 5px" }}>Frames candidatos</div>
-            <div style={{ display:"flex", gap:5 }}>
-              {[0,1,2,3].map(i => (
-                <div key={i} onClick={() => setFrameIdx({...frameIdx, [sel]:i})} style={{
-                  flex:1, height:42, borderRadius:6, overflow:"hidden", cursor:"pointer",
-                  border: selFrame===i ? `2px solid ${G}` : "2px solid transparent",
-                  boxShadow: selFrame===i ? `0 0 0 1px ${G}` : "none",
-                  transition: "all .15s"
-                }}>
-                  <img src={frameUrl(note.videoId, i)} alt="" style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
-                </div>
-              ))}
-            </div>
+            {/* TRIM SELECTOR */}
+            <TrimSelector
+              duration={note?.videoDuration ?? 300}
+              start={clipStart}
+              end={clipEnd}
+              onChangeEnd={({ start, end }) => {
+                setTrimStart(start);
+                setTrimEnd(end);
+              }}
+            />
+
+            {/* CAPTURE FRAME */}
+            <button
+              onClick={handleCaptureFrame}
+              disabled={capturing}
+              style={{
+                width:"100%", padding:"8px 0", borderRadius:8, fontSize:11, fontWeight:600,
+                border:"none", cursor: capturing ? "not-allowed" : "pointer",
+                background: capturing ? "#e2e8f0" : B, color: capturing ? M : "#fff",
+                fontFamily:"inherit", marginTop:8, transition:"all .15s",
+              }}
+            >
+              {capturing ? "Capturando frame..." : "Capturar Frame"}
+            </button>
+
+            {/* FRAME CAPTURADO (thumbnail) */}
+            {capturedFrame[sel] && (
+              <div style={{ display:"flex", alignItems:"center", gap:8, marginTop:8, padding:"6px 8px", background:"#f0fdf4", borderRadius:8, border:`1px solid ${G}` }}>
+                <img src={capturedFrame[sel]} alt="Frame" style={{ width:64, height:40, objectFit:"cover", borderRadius:4 }}/>
+                <span style={{ fontSize:10, color:"#166534", fontWeight:500 }}>Frame capturado como imagen de la nota</span>
+              </div>
+            )}
+
 
             <div style={{ fontSize:9, textTransform:"uppercase", letterSpacing:"0.08em", color:M, fontWeight:600, margin:"12px 0 5px" }}>Nota generada por IA</div>
             {isEditing ? (
@@ -345,16 +404,23 @@ export default function TVNHub() {
             </div>
 
             <div style={{ fontSize:9, textTransform:"uppercase", letterSpacing:"0.08em", color:M, fontWeight:600, margin:"12px 0 5px" }}>Redes sociales</div>
-            {[["ig","IG","linear-gradient(135deg,#833AB4,#E1306C)"],["x","X","#000"],["fb","FB","#1877F2"]].map(([k,label,bg]) => (
+            {[["ig","linear-gradient(135deg,#833AB4,#E1306C)"],["x","#000"],["fb","#1877F2"]].map(([k,bg]) => {
+              const icons = {
+                ig: <svg viewBox="0 0 24 24" width="12" height="12" fill="#fff"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.97.24 2.43.403a4.088 4.088 0 011.47.957c.453.453.752.92.957 1.47.163.46.35 1.26.404 2.43.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.97-.404 2.43a4.088 4.088 0 01-.957 1.47 4.088 4.088 0 01-1.47.957c-.46.163-1.26.35-2.43.404-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.97-.24-2.43-.404a4.088 4.088 0 01-1.47-.957 4.088 4.088 0 01-.957-1.47c-.163-.46-.35-1.26-.404-2.43C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.85c.054-1.17.24-1.97.404-2.43a4.088 4.088 0 01.957-1.47A4.088 4.088 0 015.064 2.293c.46-.163 1.26-.35 2.43-.404C8.756 1.831 9.136 1.82 12 1.82V2.163zM12 0C8.741 0 8.333.014 7.053.072 5.775.131 4.905.333 4.14.63a5.876 5.876 0 00-2.126 1.384A5.876 5.876 0 00.63 4.14C.333 4.905.131 5.775.072 7.053.014 8.333 0 8.741 0 12s.014 3.667.072 4.947c.059 1.278.261 2.148.558 2.913a5.876 5.876 0 001.384 2.126A5.876 5.876 0 004.14 23.37c.765.297 1.635.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.278-.059 2.148-.261 2.913-.558a5.876 5.876 0 002.126-1.384 5.876 5.876 0 001.384-2.126c.297-.765.499-1.635.558-2.913C23.986 15.667 24 15.259 24 12s-.014-3.667-.072-4.947c-.059-1.278-.261-2.148-.558-2.913a5.876 5.876 0 00-1.384-2.126A5.876 5.876 0 0019.86.63C19.095.333 18.225.131 16.947.072 15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>,
+                x: <svg viewBox="0 0 24 24" width="12" height="12" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>,
+                fb: <svg viewBox="0 0 24 24" width="12" height="12" fill="#fff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>,
+              };
+              return (
               <div key={k} style={{ display:"flex", alignItems:"flex-start", gap:7, padding:"6px 0", borderBottom:k!=="fb"?"1px solid #f1f5f9":"none" }}>
-                <div style={{ width:20, height:20, borderRadius:5, background:bg, display:"flex", alignItems:"center", justifyContent:"center", fontSize:9, color:"#fff", fontWeight:700, flexShrink:0 }}>{label}</div>
+                <div style={{ width:20, height:20, borderRadius:5, background:bg, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{icons[k]}</div>
                 {isEditing ? (
                   <textarea value={valRrss(k)} onChange={ev => setField(`rrss_${k}`, ev.target.value)} style={{ ...taStyle, fontSize:10, flex:1, minHeight:36 }}/>
                 ) : (
                   <div style={{ fontSize:10, color:"#475569", lineHeight:1.45, flex:1 }}>{valRrss(k)}</div>
                 )}
               </div>
-            ))}
+              );
+            })}
 
             <div style={{ display:"flex", gap:6, marginTop:14 }}>
               {isEditing ? (
@@ -374,7 +440,9 @@ export default function TVNHub() {
             {/* AGENTE IA */}
             <div style={{ marginTop:14, borderTop:"1px solid #e2e8f0", paddingTop:10 }}>
               <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8 }}>
-                <div style={{ width:22, height:22, borderRadius:6, background:`linear-gradient(135deg,${B},#7c3aed)`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, color:"#fff" }}>AI</div>
+                <div style={{ width:22, height:22, borderRadius:6, background:"linear-gradient(135deg,#4285F4,#9B72CB,#D96570)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                  <svg viewBox="0 0 28 28" width="14" height="14" fill="none"><path d="M14 0C14 0 14 14 0 14C14 14 14 28 14 28C14 28 14 14 28 14C14 14 14 0 14 0Z" fill="#fff"/></svg>
+                </div>
                 <div style={{ fontSize:10, textTransform:"uppercase", letterSpacing:"0.08em", color:M, fontWeight:600 }}>Agente editorial — Gemini</div>
               </div>
 
